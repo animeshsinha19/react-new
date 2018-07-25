@@ -9,22 +9,65 @@ class App extends Component {
     persons: [
       { name: 'animesh' },
       { name: 'anila' }
-    ]
+    ],
+    showPersons: false
   }
 
-  switchNameHandler = () => {
-    console.log("from handler");
+  switchNameHandler = (newName) => {
+    //console.log("from handler");
+    // this.state.persons[0].name  = "anu";
+    this.setState({
+      persons:[
+        { name: newName },
+        { name: 'anila' }
+      ]
+    });
+  }
+
+  nameChangedHandler  = (event) => {
+    this.setState({
+      persons:[
+        { name: event.target.value },
+        { name: 'anila' }
+      ]
+    });
+  }
+
+  togglePersonHandler = () => {
+    this.setState({
+      showPersons: !this.state.showPersons
+    });
   }
 
   render() {
+
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
+    let persons = null;
+
+    if(this.state.showPersons) {
+      persons = (
+            <div>
+              {
+                this.state.persons.map(person => {
+                  return <Person name={person.name} />
+                })
+              }
+            </div>
+      );
+    }
     return (
       <div className="App">
         <h1>Hi I am react app</h1>
         <p>New text</p>
-        <button onClick={this.switchNameHandler}>Custom Button</button>
-        <Person name={this.state.persons[0].name}/>
-        <Person name={this.state.persons[1].name}/>
-        <Person>No args</Person>
+        <button style={style} onClick={this.togglePersonHandler}>Custom Button</button>
+        {persons}
       </div>
       
       // React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'))
