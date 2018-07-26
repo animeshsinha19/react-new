@@ -7,8 +7,8 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'animesh' },
-      { name: 'anila' }
+      { id:'a', name: 'animesh' },
+      { id:'b', name: 'anila' }
     ],
     showPersons: false
   }
@@ -24,18 +24,36 @@ class App extends Component {
     });
   }
 
-  nameChangedHandler  = (event) => {
+  nameChangedHandler  = (event, personId) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === personId;
+    });
+    
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex]  = person;
+
     this.setState({
-      persons:[
-        { name: event.target.value },
-        { name: 'anila' }
-      ]
+      persons: persons
     });
   }
 
   togglePersonHandler = () => {
     this.setState({
       showPersons: !this.state.showPersons
+    });
+  }
+
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({
+      persons: persons
     });
   }
 
@@ -55,8 +73,12 @@ class App extends Component {
       persons = (
             <div>
               {
-                this.state.persons.map(person => {
-                  return <Person name={person.name} />
+                this.state.persons.map((person, index) => {
+                  return <Person 
+                            click={() => this.deletePersonHandler(index)} 
+                            name={person.name} 
+                            key={person.id}
+                            changed={(event) => this.nameChangedHandler(event, person.id)}/>
                 })
               }
             </div>
