@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
-import Radium, { StyleRoot } from 'radium';
+import classes from  './App.css';
+// import Radium, { StyleRoot } from 'radium';
 
 import Person from './Person/Person';
 
@@ -61,7 +61,7 @@ class App extends Component {
 
   render() {
 
-    const style = {
+    /* const style = {
       backgroundColor: 'blue',
       font: 'inherit',
       border: '1px solid blue',
@@ -70,13 +70,14 @@ class App extends Component {
       ':hover': {
         backgroundColor: 'cyan',
         color: 'black'
-      } */
-    };
+      } 
+    };*/
 
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
-      style.backgroundColor = 'green';
+      // style.backgroundColor = 'green';
       /* style[':hover'] = {
         backgroundColor: 'lightgreen',
         color: 'black'
@@ -94,22 +95,24 @@ class App extends Component {
           }
         </div>
       );
+      btnClass = classes.Green;
     }
 
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // classes = ['red']
+      assignedClasses.push(classes.red); // classes = ['red']
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');  // classes = ['red', 'bold']
+      assignedClasses.push(classes.bold);  // classes = ['red', 'bold']
     }
 
     return (
       // <StyleRoot>
-        <div className="App">
+        <div className={classes.App}>
           <h1>Hi I am react app</h1>
-          <p className={classes.join(' ')}>New text</p>
-          <button style={style} onClick={this.togglePersonHandler}>Custom Button</button>
+          <p className={assignedClasses.join(' ')}>New text</p>
+          {/* <button style={style} onClick={this.togglePersonHandler}>Custom Button</button> */}
+          <button className={btnClass} onClick={this.togglePersonHandler}>Custom Button</button>
           {persons}
         </div>
       // </ StyleRoot>
